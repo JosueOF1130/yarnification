@@ -1,35 +1,61 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import {yarnBall} from "./assets/images.js"
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+
+  // if user is not signed in
+    //show user auth page
+      //show login page for users
+      //show signup page for new users
+  // else if user is signed in then show the app based on the users credentials
+
+  const [hasAnAccount, setHasAnAccount] = useState(false)
+
+  function switchView(){
+    setHasAnAccount(prev => !prev);
+  }
+
+  function authenticateUser(formData){
+    if(hasAnAccount){
+      // sign in
+    } else {
+      // create user
+      // add user to db
+    }
+  }
+
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <img src={yarnBall} alt="yarn ball" />
+      <h1>Welcome to Yarnification</h1>
+      <h2>Create an account to get started</h2>
+      <form className='auth-form' action="{authenticateUser}">
+            <input 
+              type="email"
+              placeholder="e.g. johndoe@email.com"
+              aria-label="Enter email"
+              name="email"
+            />
+            <input 
+              type="password" 
+              aria-label="Enter Password"
+              placeholder='password'
+              name="password"
+            />
+            <button>{hasAnAccount ? "Sign in" : "Sign up"}</button>
+      </form>
+      {
+        hasAnAccount ? 
+      (
+        <span>Don't have account? <button onClick={switchView}>Sign up</button></span>
+      ) 
+      : 
+      (
+        <span>Already have account? <button onClick={switchView}>Sign in</button></span>
+      )
+      }
     </>
   )
 }
-
-export default App
