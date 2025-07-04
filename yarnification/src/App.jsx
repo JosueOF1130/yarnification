@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import {yarnBall} from "./assets/images.js"
-import './App.css'
+import './styles/App.css'
+
 
 export default function App() {
 
@@ -27,10 +28,10 @@ export default function App() {
 
 
   return (
-    <>
-    <img src={yarnBall} alt="yarn ball" />
+    <div className='container'>
+      <img src={yarnBall} alt="yarn ball" className='yarn-ball-img' />
       <h1>Welcome to Yarnification</h1>
-      <h2>Create an account to get started</h2>
+      <h2>{hasAnAccount ? ("Welcome back!") : ("Create an account to get started")}</h2>
       <form className='auth-form' action="{authenticateUser}">
             <input 
               type="email"
@@ -46,16 +47,7 @@ export default function App() {
             />
             <button>{hasAnAccount ? "Sign in" : "Sign up"}</button>
       </form>
-      {
-        hasAnAccount ? 
-      (
-        <span>Don't have account? <button onClick={switchView}>Sign up</button></span>
-      ) 
-      : 
-      (
-        <span>Already have account? <button onClick={switchView}>Sign in</button></span>
-      )
-      }
-    </>
+    <span className='switch-auth'>{hasAnAccount ? ("Don't have an account?") : ("Already have an account?")} <button onClick={switchView}>Sign {hasAnAccount ? ("up") : ("in")}</button></span>
+    </div>
   )
 }

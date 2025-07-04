@@ -1,0 +1,47 @@
+.container {
+  max-width: 1280px;
+  margin: auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+button {
+  font-family: inherit;
+}
+
+.yarn-ball-img {
+    max-width: 150px;
+}
+
+.auth-form {
+  width: 40%;
+  /* min-height: 300px; */
+  margin: 20px auto;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  
+  justify-content: center;
+  align-items: center;
+
+  input, button {
+    width: 95%;
+    height: 40px;
+    border-radius: 8px;
+    padding: 5px;
+    border: none;
+  }
+
+  border-radius: 8px;
+  
+}
+
+span.switch-auth button {
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+  text-decoration: underline;
+  font-size: 1.02em;
+  cursor: pointer;
+}
