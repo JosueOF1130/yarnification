@@ -1,0 +1,37 @@
+
+.tab-bar {
+    display: flex;
+    position: absolute;
+    max-width: 800px;
+    margin: auto;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: center;
+}
+
+.tab-bar .tab-item {
+    border: 1px solid var(--background-500);
+    width: 100%;
+    padding: 10px;
+}
+
+.tab-bar .tab-item .tab-icon .icon-svg {
+    width: 3rem;
+    height: 50px;
+}
+
+
+.tab-bar .tab-item:hover {
+    cursor: pointer;
+    background-color: var(--background-900);
+}
+
+.icon-svg .svg-fill {
+    fill: var(--text-600)
+}
+
+.icon-svg.selected .svg-fill {
+    fill: var(--text);
+}

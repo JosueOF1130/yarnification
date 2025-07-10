@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'Harlow Solid';
+    src: url('../assets/fonts/HarlowSolid.woff2') format('woff2'),
+        url('../assets/fonts/HarlowSolid.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+.harlow-solid {
+    font-family: 'Harlow Solid';
+    font-weight: 100;
+
+}

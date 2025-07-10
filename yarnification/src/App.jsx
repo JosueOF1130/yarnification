@@ -1,53 +1,83 @@
-import { useState } from 'react'
-import {yarnBall} from "./assets/images.js"
-import './styles/App.css'
+import { signInUser, signUpUser, onUserStateChange, signOutUser } from './firebase/auth.js';
+
+import { useState, useEffect } from 'react';
+
+import AuthView from "./components/AuthView.jsx";
+import DashBoard from './components/DashBoard.jsx';
+import './styles/index.css';
+import './styles/App.css';
+import './styles/fonts.css';
+
 
 
 export default function App() {
 
-  // if user is not signed in
-    //show user auth page
-      //show login page for users
-      //show signup page for new users
-  // else if user is signed in then show the app based on the users credentials
+  const [loading, setLoading] = useState(false);
+  const [authView, setAuthView] = useState("login");
+  const [user, setUser] = useState(null);
 
-  const [hasAnAccount, setHasAnAccount] = useState(false)
+  useEffect(()=>{
+    const unsubscribe = onUserStateChange((user) => { 
+      setUser(user);
+      setLoading(true);
+      setAuthView("login");
+    });
+    
+    return () => unsubscribe();
+  },[]);
+
 
   function switchView(){
-    setHasAnAccount(prev => !prev);
+    setAuthView((prev) => prev === "login" ? "signup" : "login");
   }
 
-  function authenticateUser(formData){
-    if(hasAnAccount){
-      // sign in
+  async function authenticateUser(formData){
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    if(authView === "login"){
+      // log user in
+      const result = await signInUser(email, password);
+      if (result.errorCode) {
+        console.error(result.errorMessage);
+      }
     } else {
       // create user
-      // add user to db
+      const username = formData.get("username");
+      const result = await signUpUser(email, password, username);
+      if (result.errorCode) {
+        console.error(result.errorMessage);
+      }
     }
   }
 
+  async function signOut() {
+    const result = signOutUser();
+    if(result.errorCode) {
+      console.log(result.errorMessage);
+      // TODO: handle error
+      return
+    }
+    setUser(null);
+    setLoading(false)
+  }
+
+
 
   return (
-    <div className='container'>
-      <img src={yarnBall} alt="yarn ball" className='yarn-ball-img' />
-      <h1>Welcome to Yarnification</h1>
-      <h2>{hasAnAccount ? ("Welcome back!") : ("Create an account to get started")}</h2>
-      <form className='auth-form' action="{authenticateUser}">
-            <input 
-              type="email"
-              placeholder="e.g. johndoe@email.com"
-              aria-label="Enter email"
-              name="email"
-            />
-            <input 
-              type="password" 
-              aria-label="Enter Password"
-              placeholder='password'
-              name="password"
-            />
-            <button>{hasAnAccount ? "Sign in" : "Sign up"}</button>
-      </form>
-    <span className='switch-auth'>{hasAnAccount ? ("Don't have an account?") : ("Already have an account?")} <button onClick={switchView}>Sign {hasAnAccount ? ("up") : ("in")}</button></span>
-    </div>
+  <div className='container'>
+    {
+      loading && (
+        user ? 
+        (
+          <DashBoard user={user} signOut={signOut}/>
+        )
+      :
+        (
+          <AuthView authView={authView} switchView={switchView} authenticateUser={authenticateUser}/>
+        )
+      )
+    }
+  </div>
   )
 }
